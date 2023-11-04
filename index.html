@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --base: #bde0fe;
+      --first: #cdb4db;
+      --second: #ffc8dd;
+      --third: #ffafcc;
+      --fourth: #a2d2ff;
+    }
+
+    body {
+      background-color: var(--base);
+      margin: 0px;
+      padding: 0px;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    @keyframes pulse {
+      0% {
+        scale: 0;
+      }
+      50% {
+        scale: 1;
+      }
+      100% {
+        scale: 0;
+      }
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      height: 800px;
+      width: 800px;
+      z-index: 3;
+      opacity: 0.5;
+    }
+
+    .blob:nth-child(1) {
+      left: 75%;
+      top: 50%;
+      background-color: var(--first);
+      animation: pulse 10s linear infinite;
+    }
+
+    .blob:nth-child(2) {
+      left: 25%;
+      top: 50%;
+      scale: 0;
+      background-color: var(--second);
+      animation: pulse 10s 5s infinite;
+      animation-direction: alternate;
+    }
+    .blob:nth-child(3) {
+      left: 50%;
+      top: 10%;
+      scale: 0;
+      background-color: var(--third);
+      animation: pulse 10s 7s infinite;
+      animation-direction: alternate;
+    }
+    .blob:nth-child(4) {
+      left: 0px;
+      bottom: 0px;
+      scale: 0;
+      background-color: var(--fourth);
+      animation: pulse 10s 3s infinite;
+      animation-direction: alternate;
+    }
+
+    #blur {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      backdrop-filter: blur(24vmax);
+      z-index: 3;
+    }
+
+    #toggle {
+      color:black;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 5;
+    }
+
+    .slider-container {
+      width: 100%;
+      z-index: 10;
+      position: absolute;
+    }
+  </style>
+  <title>Blob Animation</title>
+</head>
+<body>
+  <div class="blob"></div>
+  <div class="blob"></div>
+  <div class="blob"></div>
+  <div class="blob"></div>
+  <div id="blur"></div>
+  <button id="toggle">Toggle</button>
+  <div class="slider-container">
+    <label for="blur-selector">Blur</label>
+    <input type="range" min="0" max="30" value="10" name="blur-selector" id="slider" />
+  </div>
+  <script>
+    const root = document.documentElement;
+    const button = document.querySelector("#toggle");
+    const slider = document.querySelector("#slider");
+    const blur = document.getElementById("blur");
+
+    slider.oninput = (e) => {
+      let value = e.target.value;
+      blur.style.backdropFilter = `blur(${value}vmax)`;
+    };
+
+    let darkMode = false;
+
+    const originalColorScheme = {
+      base: '#bde0fe',
+      first: '#cdb4db',
+      second: '#ffc8dd',
+      third: '#ffafcc',
+      fourth: '#a2d2ff'
+    };
+
+    const colorSchemeOne = {
+      base: '#f9dbbd',
+      first: '#a53860',
+      second: '#da627d',
+      third: '#ffa5ab',
+      fourth: '#450920'
+    };
+
+    function handleClick() {
+      if (darkMode) {
+        root.style.setProperty("--base", colorSchemeOne.base);
+        root.style.setProperty("--first", colorSchemeOne.first);
+        root.style.setProperty("--second", colorSchemeOne.second);
+        root.style.setProperty("--third", colorSchemeOne.third);
+        root.style.setProperty("--fourth", colorSchemeOne.fourth);
+        darkMode = false;
+      } else {
+        root.style.setProperty("--base", originalColorScheme.base);
+        root.style.setProperty("--first", originalColorScheme.first);
+        root.style.setProperty("--second", originalColorScheme.second);
+        root.style.setProperty("--third", originalColorScheme.third);
+        root.style.setProperty("--fourth", originalColorScheme.fourth);
+        darkMode = true;
+      }
+    }
+
+    button.addEventListener("click", handleClick);
+  </script>
+</body>
+</html>
+
